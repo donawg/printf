@@ -12,7 +12,7 @@ int _printf(const char *format, ...)
 	int i, count;
 	char char_i, char_n;
 
-	va_start (ap, format);
+	va_start(ap, format);
 
 	for (i = 0; format[i] != '\0'; i++)
 	{
@@ -21,7 +21,7 @@ int _printf(const char *format, ...)
 		{
 			char_n = format[i + 1];
 			if (char_n == 'c')
-				count += _print_c(va_arg(ap, char));
+				count += _print_c(va_arg(ap, int));
 			if (char_n == 's')
 				count += _print_s(va_arg(ap, char *));
 			i++;
@@ -30,7 +30,6 @@ int _printf(const char *format, ...)
 		{
 			write(1, format + i, 1);
 		}
-		i++;
 	}
 
 	va_end(ap);
@@ -61,8 +60,8 @@ int _print_s(char *s)
 {
 	int size;
 
-	size = (int) sizeof(c) - 1;
+	size = (int) sizeof(s) - 1;
 	write(1, s, size);
-	
+
 	return (size);
 }

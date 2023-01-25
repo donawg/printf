@@ -13,6 +13,7 @@ int _printf(const char *format, ...)
 	char char_i, char_n;
 
 	va_start(ap, format);
+	count = 0;
 
 	for (i = 0; format[i] != '\0'; i++)
 	{
@@ -29,6 +30,7 @@ int _printf(const char *format, ...)
 		else
 		{
 			write(1, format + i, 1);
+			count += 1;
 		}
 	}
 

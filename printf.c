@@ -62,8 +62,8 @@ int _print_s(char *s)
 {
 	int size;
 
-	size = (int) sizeof(s) - 1;
-	write(1, s, size);
+	for (size = 0; s[size] != '\0'; size++)
+		_print_c(s[size]);
 
 	return (size);
 }

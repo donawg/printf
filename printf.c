@@ -64,6 +64,7 @@ int _print_s(char *s)
 
 	for (size = 0; s[size] != '\0'; size++)
 		_print_c(s[size]);
+	--size;
 
 	return (size);
 }

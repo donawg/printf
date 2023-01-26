@@ -1,6 +1,41 @@
 #include "main.h"
 
 /**
+ * specifier_handler - returns speciier struct
+ * @s: string beginning with specifier's %
+ *
+ * Return: specier struct
+ */
+spec_t specifier_handler(const char *s)
+{
+	spec_t specifier;
+	int i, precision;
+	char next, type;
+
+	i = 1;
+	precision = -1;
+	next = s[i];
+
+	if (next == '.')
+	{
+		precision = 0;
+		next = s[++i];
+		while (next >= 48 && next < 58)
+		{
+			precision *= 10;
+			precision += (next - 48);
+			next = s[++i];
+		}
+	}
+	type = next;
+	specifier.type = type;
+	specifier.precision = precision;
+	specifier.jump = i;
+
+	return (specifier);
+}
+
+/**
  * _printf - prints to the standard output
  * @format: format string composed of any number of directives
  *
@@ -9,8 +44,9 @@
 int _printf(const char *format, ...)
 {
 	va_list ap;
-	int i, count;
-	char char_i, char_n;
+	spec_t specifier;
+	int i, count, spec_p, spec_j;
+	char char_i, spec_t;
 
 	va_start(ap, format);
 	count = 0;
@@ -20,12 +56,16 @@ int _printf(const char *format, ...)
 		char_i = format[i];
 		if (char_i == '%')
 		{
-			char_n = format[i + 1];
-			if (char_n == 'c')
+			specifier = specifier_handler(format + i);
+			spec_t = specifier.type;
+			spec_p = specifier.precision;
+			spec_j = specifier.jump;
+
+			if (spec_t == 'c')
 				count += _print_c(va_arg(ap, int));
-			if (char_n == 's')
-				count += _print_s(va_arg(ap, char *));
-			i++;
+			if (spec_t == 's')
+				count += _print_s(va_arg(ap, char *), spec_p);
+			i += spec_j;
 		}
 		else
 		{
@@ -55,15 +95,20 @@ int _print_c(char c)
 /**
  * _print_s - prints a string
  * @s: string to print
+ * @precision: if >=0, max chars to print
  *
  * Return: number of characters written
  */
-int _print_s(char *s)
+int _print_s(char *s, int precision)
 {
 	int size;
 
-	for (size = 0; s[size] != '\0'; size++)
-		_print_c(s[size]);
+	if (precision >= 0)
+		for (size = 0; s[size] != '\0' && size < precision; size++)
+			_print_c(s[size]);
+	else
+		for (size = 0; s[size] != '\0'; size++)
+			_print_c(s[size]);
 
 	return (size);
 }

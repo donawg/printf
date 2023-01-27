@@ -20,4 +20,5 @@ int _printf(const char *format, ...);
 spec_t specifier_handler(const char *s);
 int _print_c(char c);
 int _print_s(char *s, int precision);
+int _print_d_i(int i, int precision);
 #endif

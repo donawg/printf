@@ -63,8 +63,10 @@ int _printf(const char *format, ...)
 
 			if (spec_t == 'c')
 				count += _print_c(va_arg(ap, int));
-			if (spec_t == 's')
+			else if (spec_t == 's')
 				count += _print_s(va_arg(ap, char *), spec_p);
+			else if (spec_t == 'd' || spec_t == 'i')
+				count += _print_d_i(va_arg(ap, int), spec_p);
 			i += spec_j;
 		}
 		else
@@ -109,6 +111,35 @@ int _print_s(char *s, int precision)
 	else
 		for (size = 0; s[size] != '\0'; size++)
 			_print_c(s[size]);
+
+	return (size);
+}
+
+/**
+ * _print_d_i - prints an int
+ * @i: int to print
+ * @precision:number of digits to print, or padding for extra
+ *
+ * Return: number of characters written
+ */
+int _print_d_i(int i, int precision)
+{
+	int size, max;
+
+	max = precision;
+	max = 1;
+	size = 0;
+
+	while (i >= max)
+		max *= 10;
+	max /= 10;
+	while (max)
+	{
+		_print_c(48 + (i / max));
+		i %= max;
+		max /= 10;
+		size++;
+	}
 
 	return (size);
 }

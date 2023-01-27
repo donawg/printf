@@ -130,6 +130,13 @@ int _print_d_i(int i, int precision)
 	max = 1;
 	size = 0;
 
+	if (i < 0)
+	{
+		_print_c('-');
+		i *= -1;
+		size++;
+	}
+
 	while (i >= max)
 		max *= 10;
 	max /= 10;

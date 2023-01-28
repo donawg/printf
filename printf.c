@@ -67,6 +67,8 @@ int _printf(const char *format, ...)
 				count += _print_s(va_arg(ap, char *), spec_p);
 			else if (spec_t == 'd' || spec_t == 'i')
 				count += _print_d_i(va_arg(ap, int), spec_p);
+			else
+				count += _print_s((char *) format + i, 2);
 			i += spec_j;
 		}
 		else
